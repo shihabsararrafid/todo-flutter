@@ -59,7 +59,14 @@ class todoList extends StatefulWidget {
   State<todoList> createState() => _todoListState();
 }
 
-class allInfo {}
+class allTasks {
+  String? taskName;
+  String? description;
+  String? category;
+  allTasks({this.taskName, this.description, this.category});
+}
+
+List<allTasks> task = [];
 
 class _todoListState extends State<todoList> {
   String selectval = "Education";
@@ -230,7 +237,12 @@ class _todoListState extends State<todoList> {
                   print(taskName.text);
                   print(taskDescription.text);
                   print(selectval);
+                  task.add(allTasks(
+                      taskName: taskName.text,
+                      description: taskDescription.text,
+                      category: selectval));
                   Navigator.of(context).pop();
+                  print(task.length);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(15),
