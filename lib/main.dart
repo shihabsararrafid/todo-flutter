@@ -59,29 +59,21 @@ class todoList extends StatefulWidget {
   State<todoList> createState() => _todoListState();
 }
 
+class allInfo {}
+
 class _todoListState extends State<todoList> {
-  String selectval = "United Kingdom";
-  final List<Map<String, dynamic>> _items = [
-    {
-      'value': 'boxValue',
-      'label': 'Box Label',
-      'icon': Icon(Icons.stop),
-    },
-    {
-      'value': 'circleValue',
-      'label': 'Circle Label',
-      'icon': Icon(Icons.fiber_manual_record),
-      'textStyle': TextStyle(color: Colors.red),
-    },
-    {
-      'value': 'starValue',
-      'label': 'Star Label',
-      'enable': false,
-      'icon': Icon(Icons.grade),
-    },
-  ];
+  String selectval = "Education";
+
   var dropdownValue = 'United Kingdom';
+  var name = "Rafid";
+  var roll = " 2003014";
+
+  // var info = {"name": name};
+
   void _showcontent() {
+    TextEditingController taskName = TextEditingController();
+    TextEditingController taskDescription = TextEditingController();
+    //TextEditingController taskName = TextEditingController();
     showDialog(
       context: context, barrierDismissible: false, // user must tap button!
 
@@ -99,6 +91,7 @@ class _todoListState extends State<todoList> {
                 SizedBox(
                   width: 400,
                   child: TextField(
+                    controller: taskName,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.purple)),
@@ -115,6 +108,7 @@ class _todoListState extends State<todoList> {
                   width: 400,
                   height: 80,
                   child: TextField(
+                    controller: taskDescription,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.purple)),
@@ -142,30 +136,68 @@ class _todoListState extends State<todoList> {
                       ]),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: DropdownButton(
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(border: InputBorder.none),
                       value: selectval,
                       items: [
                         //add items in the dropdown
                         DropdownMenuItem(
-                          child: Text("United Kingdom"),
-                          value: "United Kingdom",
+                          child: Row(
+                            children: [
+                              Text("Education"),
+                              Icon(Icons.school_outlined)
+                            ],
+                          ),
+                          value: "Education",
                         ),
                         DropdownMenuItem(
-                            child: Text("Canada"), value: "Canada"),
+                            child: Row(
+                              children: [
+                                Text("Work"),
+                                Icon(Icons.work_outline_sharp)
+                              ],
+                            ),
+                            value: "Work"),
                         DropdownMenuItem(
-                          child: Text("Russia"),
-                          value: "Russia",
+                          child: Row(
+                            children: [
+                              Text("Home"),
+                              Icon(Icons.home_max_outlined)
+                            ],
+                          ),
+                          value: "Home",
+                        ),
+                        DropdownMenuItem(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Others",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              Icon(Icons.topic_outlined)
+                            ],
+                          ),
+                          value: "Others",
                         )
                       ],
-                      onChanged: (value) {
+                      onSaved: (value) {
                         //get value when changed
-                        print("You have selected $value");
+                        // print("You have selected $value");
                         setState(() {
                           selectval = value.toString();
                         });
+                        // print(selectval);
+                      },
+                      onChanged: (value) {
+                        //get value when changed
+                        // print("You have selected $value");
+                        setState(() {
+                          selectval = value.toString();
+                        });
+                        //print(selectval);
                       },
                       //dropdown background color
-                      underline: Container(), //remove underline
+                      // underline: Container(), //remove underline
                       isExpanded: true, //make
                     ),
                   ),
@@ -195,6 +227,9 @@ class _todoListState extends State<todoList> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
+                  print(taskName.text);
+                  print(taskDescription.text);
+                  print(selectval);
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
