@@ -8,15 +8,6 @@ void main() {
 }
 
 class ToDo extends StatelessWidget {
-  // const ToDo({super.key})
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('A simple ToDO app'),
-  //     ),
-  //   );
-  // }
   const ToDo({super.key});
 
   @override
@@ -66,9 +57,10 @@ class allTasks {
   allTasks({this.taskName, this.description, this.category});
 }
 
-List<allTasks> task = [];
-
 class _todoListState extends State<todoList> {
+  List<allTasks> task = [
+    allTasks(taskName: 'ds', description: "ds", category: "hi")
+  ];
   String selectval = "Education";
 
   var dropdownValue = 'United Kingdom';
@@ -256,21 +248,26 @@ class _todoListState extends State<todoList> {
     );
   }
 
-  var todolist = "";
+  var todolist = "fdfd";
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Expanded(
-            child: todolist.length == 0
-                ? Center(
-                    child: Text(
-                      'No task found',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : taskList()),
+          child: todolist.length == 0
+              ? Center(
+                  child: Text(
+                    'No task found',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(children: <Widget>[
+                    Text("hello"),
+                    for (var t in task) taskList()
+                  ])),
+        ),
         Padding(
           padding: const EdgeInsets.all(20),
           child: Align(
