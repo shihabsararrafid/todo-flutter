@@ -3,6 +3,13 @@ import 'list.dart';
 import 'dialogbox.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+class allTasks {
+  String? taskName;
+  String? description;
+  String? category;
+  allTasks({this.taskName, this.description, this.category});
+}
+
 void main() {
   runApp(const ToDo());
 }
@@ -50,17 +57,8 @@ class todoList extends StatefulWidget {
   State<todoList> createState() => _todoListState();
 }
 
-class allTasks {
-  String? taskName;
-  String? description;
-  String? category;
-  allTasks({this.taskName, this.description, this.category});
-}
-
 class _todoListState extends State<todoList> {
-  List<allTasks> task = [
-    allTasks(taskName: 'ds', description: "ds", category: "hi")
-  ];
+  final List<allTasks> task = [];
   String selectval = "Education";
 
   var dropdownValue = 'United Kingdom';
@@ -226,13 +224,13 @@ class _todoListState extends State<todoList> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  print(taskName.text);
-                  print(taskDescription.text);
-                  print(selectval);
-                  task.add(allTasks(
-                      taskName: taskName.text,
-                      description: taskDescription.text,
-                      category: selectval));
+                  setState(() {
+                    task.add(allTasks(
+                        taskName: taskName.text,
+                        description: taskDescription.text,
+                        category: selectval));
+                  });
+
                   Navigator.of(context).pop();
                   print(task.length);
                 },
@@ -254,7 +252,7 @@ class _todoListState extends State<todoList> {
     return Column(
       children: <Widget>[
         Expanded(
-          child: todolist.length == 0
+          child: task.length == 0
               ? Center(
                   child: Text(
                     'No task found',
@@ -263,10 +261,17 @@ class _todoListState extends State<todoList> {
                 )
               : Padding(
                   padding: EdgeInsets.all(8),
-                  child: Column(children: <Widget>[
-                    Text("hello"),
-                    for (var t in task) taskList()
-                  ])),
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                    children: task.map((allTasks todo) {
+                      return tasklist(
+                        taskName: todo.taskName,
+                        description: todo.description,
+                        category: todo.category,
+                      );
+                    }).toList(),
+                  ),
+                ),
         ),
         Padding(
           padding: const EdgeInsets.all(20),
