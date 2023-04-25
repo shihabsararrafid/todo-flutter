@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'list.dart';
 import 'dialogbox.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'notification.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 class allTasks {
   String? taskName;
@@ -11,6 +13,9 @@ class allTasks {
 }
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // NotificationService().initNotification();
+  tz.initializeTimeZones();
   runApp(const ToDo());
 }
 

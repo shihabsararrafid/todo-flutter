@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'notification.dart';
 
 DateTime scheduleTime = DateTime.now();
 
@@ -11,6 +12,23 @@ class tasklist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final NotificationService notificationService;
+    @override
+    void initState() {
+      notificationService = NotificationService();
+      //listenToNotificationStream();
+      notificationService.initializePlatformNotifications();
+      // this.initState();
+    }
+
+    // void listenToNotificationStream() =>
+    //     notificationService.behaviorSubject.listen((payload) {
+    //       Navigator.push(
+    //           context,
+    //           MaterialPageRoute(
+    //               builder: (context) => MySecondScreen(payload: payload)));
+    //     });
+
     void _showPopUpMenu(Offset offset) async {
       await showMenu(
         context: context,
@@ -23,7 +41,9 @@ class tasklist extends StatelessWidget {
                   context,
                   showTitleActions: true,
                   onChanged: (date) => scheduleTime = date,
-                  onConfirm: (date) {},
+                  onConfirm: (date) {
+                    print(date);
+                  },
                 );
               },
               child: const Text(
@@ -35,7 +55,16 @@ class tasklist extends StatelessWidget {
           ),
           PopupMenuItem(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                initState();
+                print("clicked");
+                await notificationService.showLocalNotification(
+                    id: 0,
+                    title: "$taskName",
+                    body: "$description",
+                    payload: "You just completed your work! Huurray!");
+                print("clicked2");
+              },
               child: const Text(
                 'Delete',
                 style: TextStyle(color: Colors.black),
