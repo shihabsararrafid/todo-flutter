@@ -32,6 +32,12 @@ class NotificationService {
 
     await _localNotifications.initialize(initializationSettings,
         onSelectNotification: selectNotification);
+    tz.initializeTimeZones();
+    tz.setLocalLocation(
+      tz.getLocation(
+        await FlutterNativeTimezone.getLocalTimezone(),
+      ),
+    );
   }
 
   void onDidReceiveLocalNotification(
@@ -88,6 +94,30 @@ class NotificationService {
       body,
       platformChannelSpecifics,
       payload: payload,
+    );
+  }
+
+  Future<void> showScheduledLocalNotification({
+    required int id,
+    required String title,
+    required String body,
+    required String payload,
+    required DateTime scheduledNotificationDateTime,
+  }) async {
+    final platformChannelSpecifics = await _notificationDetails();
+    await _localNotifications.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(
+        scheduledNotificationDateTime,
+        tz.local,
+      ),
+      platformChannelSpecifics,
+      payload: payload,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
     );
   }
 }

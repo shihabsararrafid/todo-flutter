@@ -36,13 +36,19 @@ class tasklist extends StatelessWidget {
         items: [
           PopupMenuItem(
             child: TextButton(
-              onPressed: () {
+              onPressed: () async {
                 DatePicker.showDateTimePicker(
                   context,
                   showTitleActions: true,
                   onChanged: (date) => scheduleTime = date,
-                  onConfirm: (date) {
-                    print(date);
+                  onConfirm: (date) async {
+                    initState();
+                    await notificationService.showScheduledLocalNotification(
+                        id: 1,
+                        title: "$taskName",
+                        body: "$description",
+                        payload: "You just completed your workj! Huurray!",
+                        scheduledNotificationDateTime: scheduleTime);
                   },
                 );
               },
@@ -62,7 +68,7 @@ class tasklist extends StatelessWidget {
                     id: 0,
                     title: "$taskName",
                     body: "$description",
-                    payload: "You just completed your work! Huurray!");
+                    payload: "You just completed your workj! Huurray!");
                 print("clicked2");
               },
               child: const Text(
@@ -74,7 +80,7 @@ class tasklist extends StatelessWidget {
           ),
           PopupMenuItem(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () async {},
               child: const Text(
                 'Edit',
                 style: TextStyle(color: Colors.black),
